@@ -6,6 +6,9 @@ Flask app for detecting NSFW images. Built using the models in [GantMan/nsfw_mod
 - python 3.8.10
 
 ## Quick start
+
+[Deeper dive](https://www.kcoleman.me/2021/06/07/nsfw-flask.html)
+
 ### prediction
 
 ```
