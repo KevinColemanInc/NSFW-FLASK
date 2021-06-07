@@ -26,4 +26,28 @@ curl http://localhost:5000/health
 
 ## hosting - Heroku
 It doesn't work b/c the compiled slug size is > 500MB.
-## hosting - DO
+## hosting - Digital Ocean
+
+This works great hosting in "2 GB RAM | 1 vCPU" Digital Ocean box.
+
+sample config:
+```yaml
+name: nsfw-flask
+region: nyc
+services:
+- environment_slug: python
+  github:
+    branch: master
+    deploy_on_push: true
+    repo: KevinColemanInc/NSFW-FLASK
+  health_check:
+    http_path: /health
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-s
+  name: nsfw-flask
+  routes:
+  - path: /
+  run_command: gunicorn --worker-tmp-dir /dev/shm app:app
+  source_dir: /
+```
