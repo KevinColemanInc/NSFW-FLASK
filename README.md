@@ -7,6 +7,10 @@ Flask app for detecting NSFW images. Built using the models in [GantMan/nsfw_mod
 
 ## Quick start
 
+Checkout the [Makefile](./Makefile)
+
+## Slow start
+
 [Deeper dive](https://www.kcoleman.me/2021/06/07/nsfw-flask.html)
 
 ### prediction
@@ -26,9 +30,6 @@ curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/ma
 curl http://localhost:5000/health
 { "status": "ok }
 ```
-
-## hosting - Heroku
-It doesn't work b/c the compiled slug size is > 500MB.
 ## hosting - Digital Ocean
 
 This works great hosting in "2 GB RAM | 1 vCPU" Digital Ocean box.
