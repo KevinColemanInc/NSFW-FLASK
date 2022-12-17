@@ -105,7 +105,7 @@ def predictV2():
     return { 'private_detector': preds.numpy().tolist()[0][0], 'time': (time.time() - t0) }
 
 @app.route('/models/all/predict', methods=['POST'])
-def predictV2():
+def predictAll():
     t0 = time.time()
     url = request.args.get('url')
     image = read_image(url)
