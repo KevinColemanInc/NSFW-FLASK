@@ -17,6 +17,7 @@ Checkout the [Makefile](./Makefile)
 
 ```
 curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+
 {
   "drawings": 0.006791549269109964,
   "hentai": 0.002260813256725669,
@@ -25,9 +26,19 @@ curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/ma
   "sexy": 0.015450258739292622
 }
 ```
+
+### prediction v2
+
+```
+curl -XPOST 'http://localhost:5000/models/private_detector/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+{
+  "score": 0.006791549269109964,
+}
+```
 ### health check
 ```
 curl http://localhost:5000/health
+
 { "status": "ok }
 ```
 ## hosting - Digital Ocean

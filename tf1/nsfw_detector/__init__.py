@@ -1,1 +1,0 @@
-from .keras_predict import keras_predictor as NSFWDetector

@@ -12,3 +12,5 @@ images/**
 NSFWModel/**
 trained_models/**
 training/train_best_models.cmd
+
+_private_detector_saved_model
