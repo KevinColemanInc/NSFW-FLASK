@@ -40,7 +40,7 @@ del unzip
 gc.collect()
 
 model_v2 = tf.saved_model.load(private_detector_path)
-# model = predict.load_model(MODEL_PATH)
+model = predict.load_model(MODEL_PATH)
 
 def download_image(url, dest):
     r = requests.get(url, stream = True)
