@@ -16,7 +16,7 @@ Checkout the [Makefile](./Makefile)
 ### prediction
 
 ```
-curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+curl -XPOST 'https://nsfw-flask.fly.dev/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
 
 {
   "drawings": 0.006791549269109964,
@@ -35,6 +35,23 @@ curl -XPOST 'http://localhost:5000/models/private_detector/predict?url=https://w
   "score": 0.006791549269109964,
 }
 ```
+or call all models
+
+```
+curl -XPOST 'http://localhost:5000/models/all/predict?url=https://www.kcoleman.me/images/magnify-search.jpg' | jq .
+{
+  "nsfw_model": {
+    "drawings": 0.006829037331044674,
+    "hentai": 0.0023168271873146296,
+    "neutral": 0.958500325679779,
+    "porn": 0.017766576260328293,
+    "sexy": 0.014587122946977615
+  },
+  "private_detector": 0.07078268378973007,
+  "time": 3.2110581398010254
+}
+```
+
 ### health check
 ```
 curl http://localhost:5000/health
