@@ -16,7 +16,8 @@ Checkout the [Makefile](./Makefile)
 ### prediction
 
 ```
-curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+curl -XPOST 'https://nsfw-flask.fly.dev/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+
 {
   "drawings": 0.006791549269109964,
   "hentai": 0.002260813256725669,
@@ -25,12 +26,55 @@ curl -XPOST 'http://localhost:5000/predict?url=https://www.kcoleman.me/images/ma
   "sexy": 0.015450258739292622
 }
 ```
+
+### prediction v2
+
+```
+curl -XPOST 'http://localhost:5000/models/private_detector/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+{
+  "score": 0.006791549269109964,
+}
+```
+or call all models
+
+```
+curl -XPOST 'http://localhost:5000/models/all/predict?url=https://www.kcoleman.me/images/magnify-search.jpg' | jq .
+{
+  "nsfw_model": {
+    "drawings": 0.006829037331044674,
+    "hentai": 0.0023168271873146296,
+    "neutral": 0.958500325679779,
+    "porn": 0.017766576260328293,
+    "sexy": 0.014587122946977615
+  },
+  "private_detector": 0.07078268378973007,
+  "time": 3.2110581398010254
+}
+```
+
 ### health check
 ```
 curl http://localhost:5000/health
+
 { "status": "ok }
 ```
-## hosting - Digital Ocean
+## hosting - FlyIO ~$10/mo
+
+FlyIO is about 50% cheaper than DO for 2GB of RAM, so that is my preference.
+
+```
+$ flyctl launch
+```
+
+and then
+
+```
+$ flyctl deploy
+```
+
+You may need to go into the web interface to choose the 2GB RAM offering if the server does not successfully start.
+
+## hosting - Digital Ocean - $20/mo
 
 This works great hosting in "2 GB RAM | 1 vCPU" Digital Ocean box.
 
@@ -52,6 +96,6 @@ services:
   name: nsfw-flask
   routes:
   - path: /
-  run_command: gunicorn --worker-tmp-dir /dev/shm app:app
+  run_command: gunicorn --worker-tmp-dir /dev/shm app:app -t 0
   source_dir: /
 ```

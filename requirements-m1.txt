@@ -1,9 +1,9 @@
 tensorflow-macos==2.9
 tensorflow-metal==0.5.0
 tensorflow-hub==0.7.0
+numpy==1.23.5
 pillow
 flask
 nose
 tornado
 gunicorn
-numpy==1.23.5
