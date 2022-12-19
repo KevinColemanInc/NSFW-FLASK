@@ -16,7 +16,7 @@ Checkout the [Makefile](./Makefile)
 ### prediction
 
 ```
-curl -XPOST 'https://nsfw-flask.fly.dev/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
+curl -XPOST 'https://localhost:5000/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
 
 {
   "drawings": 0.006791549269109964,
