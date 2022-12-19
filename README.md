@@ -58,7 +58,23 @@ curl http://localhost:5000/health
 
 { "status": "ok }
 ```
-## hosting - Digital Ocean
+## hosting - FlyIO ~$10/mo
+
+FlyIO is about 50% cheaper than DO for 2GB of RAM, so that is my preference.
+
+```
+$ flyctl launch
+```
+
+and then
+
+```
+$ flyctl deploy
+```
+
+You may need to go into the web interface to choose the 2GB RAM offering if the server does not successfully start.
+
+## hosting - Digital Ocean - $20/mo
 
 This works great hosting in "2 GB RAM | 1 vCPU" Digital Ocean box.
 
@@ -80,6 +96,6 @@ services:
   name: nsfw-flask
   routes:
   - path: /
-  run_command: gunicorn --worker-tmp-dir /dev/shm app:app
+  run_command: gunicorn --worker-tmp-dir /dev/shm app:app -t 0
   source_dir: /
 ```
