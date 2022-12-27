@@ -1,6 +1,6 @@
 ## NSFW Flask detection
 
-Flask app for detecting NSFW images. Built using the models in [GantMan/nsfw_model](https://github.com/GantMan/nsfw_model)
+Flask app for detecting NSFW images. Built using the models in [GantMan/nsfw_model](https://github.com/GantMan/nsfw_model) and [bumble-tech/private-detector](https://github.com/bumble-tech/private-detector)
 
 ### Requirements
 - python 3.8.10
