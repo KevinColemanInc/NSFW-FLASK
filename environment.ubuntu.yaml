@@ -22,3 +22,4 @@ dependencies:
     - tornado
     - gunicorn
     - numpy==1.23.5
+    - tensorflow-hub
