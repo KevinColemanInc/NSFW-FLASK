@@ -1,9 +1,0 @@
-6617/6617 [==============================] - 1634s 247ms/step - loss: 0.7685 - accuracy: 0.8882 - val_loss: 0.7046 - val_accuracy: 0.9158
-Epoch 2/5
-6617/6617 [==============================] - 1463s 221ms/step - loss: 0.6754 - accuracy: 0.9314 - val_loss: 0.6864 - val_accuracy: 0.9236
-Epoch 3/5
-6617/6617 [==============================] - 1466s 222ms/step - loss: 0.6304 - accuracy: 0.9545 - val_loss: 0.6878 - val_accuracy: 0.9247
-Epoch 4/5
-6617/6617 [==============================] - 1465s 221ms/step - loss: 0.5944 - accuracy: 0.9730 - val_loss: 0.6931 - val_accuracy: 0.9251
-Epoch 5/5
-6617/6617 [==============================] - 1468s 222ms/step - loss: 0.5653 - accuracy: 0.9873 - val_loss: 0.7020 - val_accuracy: 0.9227

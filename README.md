@@ -13,42 +13,12 @@ Checkout the [Makefile](./Makefile)
 
 [Deeper dive](https://www.kcoleman.me/2021/06/07/nsfw-flask.html)
 
-### prediction
-
-```
-curl -XPOST 'https://localhost:5000/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
-
-{
-  "drawings": 0.006791549269109964,
-  "hentai": 0.002260813256725669,
-  "neutral": 0.9589748978614807,
-  "porn": 0.016522442921996117,
-  "sexy": 0.015450258739292622
-}
-```
-
 ### prediction v2
 
 ```
 curl -XPOST 'http://localhost:5000/models/private_detector/predict?url=https://www.kcoleman.me/images/magnify-search.jpg'
 {
   "score": 0.006791549269109964,
-}
-```
-or call all models
-
-```
-curl -XPOST 'http://localhost:5000/models/all/predict?url=https://www.kcoleman.me/images/magnify-search.jpg' | jq .
-{
-  "nsfw_model": {
-    "drawings": 0.006829037331044674,
-    "hentai": 0.0023168271873146296,
-    "neutral": 0.958500325679779,
-    "porn": 0.017766576260328293,
-    "sexy": 0.014587122946977615
-  },
-  "private_detector": 0.07078268378973007,
-  "time": 3.2110581398010254
 }
 ```
 

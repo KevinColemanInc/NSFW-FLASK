@@ -1,6 +1,4 @@
-from flask import Flask
-from flask import request
-from nsfw_detector import predict
+from flask import Flask, request
 import requests
 import random
 import string
@@ -16,7 +14,6 @@ from private_detector.private_detector.utils.preprocess import preprocess_for_ev
 
 app = Flask(__name__)
 
-MODEL_PATH = 'mobilenet_v2_140_224'
 letters = string.ascii_lowercase
 
 def unzip(source_filename, dest_dir):
@@ -40,7 +37,6 @@ del unzip
 gc.collect()
 
 model_v2 = tf.saved_model.load(private_detector_path)
-model = predict.load_model(MODEL_PATH)
 
 def download_image(url, dest):
     r = requests.get(url, stream = True)
@@ -84,16 +80,6 @@ def read_image(url: str) -> tf.Tensor:
 def health():
   return {'status': 'ok'}
 
-@app.route('/predict', methods=['POST'])
-def upload():
-    file_path = ''.join(random.choice(letters) for i in range(10))
-    download_image(request.args.get('url'),file_path)
-    res = predict.classify(model, file_path, predict.IMAGE_DIM)
-    os.remove(file_path) 
-
-    # Call the prediction function
-    return res[file_path]
-
 @app.route('/models/private_detector/predict', methods=['POST'])
 def predictV2():
     t0 = time.time()
@@ -103,22 +89,6 @@ def predictV2():
 
     # Call the prediction function
     return { 'private_detector': preds.numpy().tolist()[0][0], 'time': (time.time() - t0) }
-
-@app.route('/models/all/predict', methods=['POST'])
-def predictAll():
-    t0 = time.time()
-    url = request.args.get('url')
-    image = read_image(url)
-    preds = model_v2([image])
-
-    file_path = ''.join(random.choice(letters) for i in range(10))
-    download_image(url, file_path)
-    res = predict.classify(model, file_path, predict.IMAGE_DIM)
-    os.remove(file_path) 
-
-    # Call the prediction function
-    return { 'private_detector': preds.numpy().tolist()[0][0], 'time': (time.time() - t0), 'nsfw_model': res[file_path] }
-
 
 if __name__ == '__main__':
     app.run(debug=True)
