@@ -6,9 +6,6 @@ from typing import Any, Tuple
 import tensorflow as tf
 from tensorflow.python.ops import control_flow_ops
 
-from . import autoaugment
-
-
 def apply_with_random_selector(x: tf.Tensor,
                                func: callable,
                                num_cases: int) -> Any:
