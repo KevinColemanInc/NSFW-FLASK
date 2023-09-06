@@ -4,7 +4,6 @@ Module for preprocessing images used for training the private detector
 from typing import Any, Tuple
 
 import tensorflow as tf
-import tensorflow_addons as tfa
 from tensorflow.python.ops import control_flow_ops
 
 from . import autoaugment
@@ -207,125 +206,6 @@ def distort_color(image: tf.Tensor,
         output_image = tf.clip_by_value(image, 0, 1)
 
         return output_image
-
-
-def preprocess_for_train(image: tf.Tensor,
-                         image_size: int,
-                         rotation_augmentation: float,
-                         dtype: tf.dtypes.DType,
-                         use_augmentation: str,
-                         scale_crop_augmentation: float) -> tf.Tensor:
-    """
-    Preprocess image for training
-
-    Parameters
-    ----------
-    image : tf.Tensor
-        Image to be prepared
-    image_size : int
-        Height/Width of image for training
-    rotation_augmentation : float
-        Rotation augmentation angle, value <= 0 disables it
-    dtype : tf.dtypes.DType
-        Dtype of the image
-    use_augmentation : bool
-        Add speckle, v0, random or color distortion augmentation
-    scale_crop_augmentation : float
-        Resize image to the model's size times this scale and then randomly crop needed size
-
-    Returns
-    -------
-    image : tf.Tensor
-        Preprocessed image used for training
-    """
-    image_size_l = int(image_size * scale_crop_augmentation)
-    image_size_l = [image_size_l, image_size_l]
-
-    image = pad_resize_image(
-        image,
-        image_size_l
-    )
-
-    image = tf.cast(image, dtype)
-
-    if use_augmentation and tf.random.uniform([], 0, 1) > 0.5:
-        for aug in use_augmentation.split(','):
-            if aug == 'speckle':
-                image = image + image * tf.random.normal(tf.shape(image))
-                image = tf.clip_by_value(image, 0, 255)
-            elif aug == 'v0':
-                image = tf.cast(image, tf.uint8)
-                image = autoaugment.distort_image_with_autoaugment(image, 'v0')
-                image = tf.cast(image, dtype)
-            elif aug == 'random':
-                image = tf.cast(image, tf.uint8)
-                randaug_num_layers = 2
-                randaug_magnitude = 28
-
-                image = autoaugment.distort_image_with_randaugment(
-                    image,
-                    randaug_num_layers,
-                    randaug_magnitude)
-                image = tf.cast(image, dtype)
-            elif 'color' in aug:
-                # image must be in [0, 1] range for this function
-                image /= 255
-
-                if aug == 'color_fast_mode':
-                    fast_mode = True
-                    num_cases = 2
-                else:
-                    fast_mode = False
-                    num_cases = 4
-
-                image = apply_with_random_selector(
-                    image,
-                    lambda x, ordering: distort_color(
-                        x,
-                        ordering,
-                        fast_mode=fast_mode),
-                    num_cases=num_cases
-                )
-
-                image *= 255
-
-    if rotation_augmentation > 0 and tf.random.uniform([], 0, 1) > 0.5:
-        angle_min = -rotation_augmentation / 180. * 3.1415
-        angle_max = rotation_augmentation / 180. * 3.1415
-
-        angle = tf.random.uniform(
-            [],
-            minval=angle_min,
-            maxval=angle_max,
-            dtype=tf.float32
-        )
-
-        image = tfa.image.rotate(
-            image,
-            angle,
-            interpolation='BILINEAR'
-        )
-
-    if tf.shape(image)[0] != image_size or tf.shape(image)[1] != image_size:
-        image = tf.image.random_crop(
-            image,
-            [image_size, image_size, 3]
-        )
-
-    image = tf.image.random_flip_left_right(image)
-
-    image = tf.cast(image, dtype)
-    image = tf.clip_by_value(
-        image,
-        0,
-        255
-    )
-
-    image -= 128
-    image /= 128
-
-    return image
-
 
 def pad_resize_image(image: tf.Tensor,
                      dims: Tuple[int, int]) -> tf.Tensor:
