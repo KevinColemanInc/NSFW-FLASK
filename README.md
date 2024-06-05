@@ -11,7 +11,7 @@ Checkout the [Makefile](./Makefile)
 
 ## Slow start
 
-[Deeper dive](https://www.kcoleman.me/2022/06/07/nsfw-flask.html)
+[Deeper dive - NSFW Image detection on Digital Ocean Apps](https://www.kcoleman.me/2022/06/07/nsfw-flask.html)
 
 ### prediction v2
 
