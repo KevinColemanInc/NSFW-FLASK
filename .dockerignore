@@ -1,0 +1,12 @@
+.git
+.DS_Store
+.dockerignore
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+logs/
+_private_detector_saved_model/
+trained_models/
+images/

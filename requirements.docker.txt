@@ -1,0 +1,11 @@
+# Runtime-only dependencies for the inference API. Training-only packages such
+# as tensorflow-addons are intentionally excluded: they are not imported by
+# app.py and do not provide Linux ARM wheels.
+# 2.13 is the latest TensorFlow release with both Python 3.8 and Linux ARM64
+# wheels, which keeps the Coolify image deployable on either common CPU type.
+tensorflow==2.13.1
+flask
+gunicorn
+numpy==1.23.5
+pillow
+requests

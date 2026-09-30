@@ -21,11 +21,13 @@ def unzip(source_filename, dest_dir):
         zf.extractall(dest_dir)
 
 def fetch_private_detector_model():
-  target = '_private_detector_saved_model/private_detector/saved_model'
+  model_dir = os.environ.get('PRIVATE_DETECTOR_MODEL_DIR', '_private_detector_saved_model')
+  target = os.path.join(model_dir, 'private_detector', 'saved_model')
   if os.path.exists(target):
     print('using cache')
     return target
-  zip_dir = '_private_detector_saved_model'
+  zip_dir = model_dir
+  os.makedirs(zip_dir, exist_ok=True)
   url = 'https://storage.googleapis.com/private_detector/private_detector.zip'
   filehandle, _ = urllib.request.urlretrieve(url)
   unzip(filehandle, zip_dir)

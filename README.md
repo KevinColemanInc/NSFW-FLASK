@@ -44,6 +44,37 @@ $ flyctl deploy
 
 You may need to go into the web interface to choose the 2GB RAM offering if the server does not successfully start.
 
+## hosting - Coolify (Docker)
+
+This repository includes a production Dockerfile that Coolify can build directly.
+Its runtime-only dependency list keeps the inference image portable across Linux
+ARM and x86 hosts; the existing `requirements.txt` remains available for model
+training.
+
+1. Create a new **Dockerfile** application in Coolify and point it at this
+   repository. Leave the Dockerfile path as `Dockerfile` and set the exposed
+   port to `8080`.
+2. Configure the health check to use `GET /health`. The first start may take a
+   few minutes because the Private Detector model is downloaded before the app
+   becomes ready.
+3. Use a host with at least 2 GB of RAM. TensorFlow loads the model in every
+   Gunicorn worker, so `WEB_CONCURRENCY` defaults to `1`; only raise it when
+   additional memory is available.
+
+The downloaded model is cached at `/app/_private_detector_saved_model` inside
+the container. To preserve it across deployments, add a Coolify persistent
+storage mount at that same path. To use another mount location, set
+`PRIVATE_DETECTOR_MODEL_DIR` to its container path. `PORT` is supported when a
+different internal port is required.
+
+Build and run it locally:
+
+```bash
+docker build -t nsfw-flask .
+docker run --rm -p 8080:8080 nsfw-flask
+curl http://localhost:8080/health
+```
+
 ## hosting - Digital Ocean - $20/mo
 
 This works great hosting in "2 GB RAM | 1 vCPU" Digital Ocean box.
