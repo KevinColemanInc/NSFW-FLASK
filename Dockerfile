@@ -14,8 +14,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.docker.txt ./
-RUN pip install --upgrade pip \
-    && pip install -r requirements.docker.txt
+RUN pip install -r requirements.docker.txt
 
 COPY . ./
 RUN useradd --create-home --shell /usr/sbin/nologin appuser \
